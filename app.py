@@ -2,7 +2,6 @@ from flask import Flask,request,jsonify
 import os
 import http.client
 import json
-from watsox_ai_service import create_payload,watsonx_generate
 from flask_cors import CORS
 
 
