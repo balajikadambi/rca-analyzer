@@ -28,6 +28,10 @@ CORS(app)
 
 context="Technical Troubleshooting"
 
+@app.route('/')
+def hello():
+    return "Hello World!"
+    
 @app.get("/watsonx_ai_service")
 def queryWatsonx():
     query_arg=request.args['query']
@@ -83,10 +87,6 @@ def getTopAnswer(context, question):
     out_json=watsonx_generate(str_payload)
 
     return (out_json["results"][0]['generated_text'])
-
-@app.route('/')
-def hello():
-    return "Hello World!"
 
 if __name__ == '__main__':
     port = os.environ.get('FLASK_PORT') or 8080
