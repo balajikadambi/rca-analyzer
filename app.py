@@ -2,10 +2,12 @@ from flask import Flask,request,jsonify
 import os
 import http.client
 import json
-from flask_cors import CORS
+#from flask_cors import CORS
 
 
 app = Flask(__name__)
+#CORS(app);
+
 #IBM Cloud credentials
 ibm_cloud__iam_url="iam.cloud.ibm.com"
 ibm_watsonx_url="au-syd.ml.cloud.ibm.com"
@@ -24,7 +26,6 @@ decoded_json=json.loads(data.decode("utf-8"))
 access_token=decoded_json["access_token"]
 
 conn_watsonx = http.client.HTTPSConnection(ibm_watsonx_url)
-CORS(app)
 
 context="Technical Troubleshooting"
 
@@ -32,7 +33,7 @@ context="Technical Troubleshooting"
 def hello():
     return "Hello World!"
     
-@app.get("/watsonx_ai_service")
+@app.route("/watsonx_ai_service")
 def queryWatsonx():
     query_arg=request.args['query']
     print("query : ",query_arg)
