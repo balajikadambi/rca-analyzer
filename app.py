@@ -33,62 +33,6 @@ context="Technical Troubleshooting"
 def hello():
     return "Hello World!"
     
-@app.route("/watsonx_ai_service")
-def queryWatsonx():
-    query_arg=request.args['query']
-    print("query : ",query_arg)
-    try:
-        str_payload=create_payload(context, query_arg)
-        out_json=watsonx_generate(str_payload)
-
-        answer=out_json["results"]
-        json_output=""
-        for count, ele in enumerate(answer):
-            print (f"Answer {count} = {answer[count]['generated_text']}")
-            json_output+=f"Answer {count} = {answer[count]['generated_text']}"
-        return jsonify(json_output)
-    except:
-        return jsonify("An error occurred while fetching the response from watsonx.ai service!!!")
-
-#function to genereate the paylod to invoke watson.ai service
-def watsonx_generate(payload):
-
-    headers = {
-        'Authorization': "Bearer "+access_token,
-        'Content-Type': "application/json",
-        'Accept': "application/json"
-        }
-
-    conn_watsonx.request("POST", ibm_watsonx_model_generation_api, payload, headers)
-
-    res = conn_watsonx.getresponse()
-    data = res.read()
-    decoded_json=json.loads(data.decode("utf-8"))
-    return (decoded_json)
-
-def create_payload(context, question):
-    payload_json_flan_ul2 = { "model_id": "ibm/granite-3-8b-instruct",
-  "input": context + "Input: " + question + "  Output:",
-  "parameters": {
-    "decoding_method": "greedy",
-    "max_new_tokens": 200,
-    "min_new_tokens": 0,
-    "stop_sequences": [],
-    "repetition_penalty": 1
-      },
-     "project_id": project_id
-    }
-
-    str_payload=json.dumps(payload_json_flan_ul2)
-    return str_payload
-
-#function to capture & return the generated results
-def getTopAnswer(context, question):
-    str_payload=create_payload(context, question)
-    out_json=watsonx_generate(str_payload)
-
-    return (out_json["results"][0]['generated_text'])
-
 if __name__ == '__main__':
     port = os.environ.get('FLASK_PORT') or 8080
     port = int(port)
