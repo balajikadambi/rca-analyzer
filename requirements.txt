@@ -1,2 +1,1 @@
 Flask==2.3.3
-flask-cors==5.0.0
