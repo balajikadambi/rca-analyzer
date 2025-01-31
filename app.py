@@ -8,8 +8,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 #IBM Cloud credentials
 ibm_cloud__iam_url="iam.cloud.ibm.com"
-ibm_watsonx_url="au-syd.ml.cloud.ibm.com"
-ibm_watsonx_model_generation_api="/ml/v1-beta/generation/text?version=2023-05-29"
+ibm_watsonx_url="jp-tok.ml.cloud.ibm.com"
+ibm_watsonx_model_generation_api="/ml/v1/text/generation?version=2023-05-29"
 
 conn_watsonx = http.client.HTTPSConnection(ibm_watsonx_url)
 CORS(app)
